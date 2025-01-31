@@ -39,8 +39,26 @@ def insert_usuario(name_usuario, type_usuario):
     finally:
         session.close()
 
+# Buscando usuários
+def select_usuarios(name_usuario=''):
+    session = Session()
+    try:
+        if name_usuario:
+            data = session.query(Usuario).filter(Usuario.name== name_usuario) # consulta um usuário
+        else: 
+            data = session.query(Usuario).all() # retorna todos os usuários
+        
+        for i in data:
+            print(f'Usuário: {i.name} - Tipo: {i.type}')
+        
+    except Exception as e:
+        print('Ocorreu algum erro ao consutar os usuários.')
+    finally:
+        session.close()
+
 
 if __name__ == '__main__':
     os.system('cls') # limpa o terminal
     Base.metadata.create_all(engine)
-    insert_usuario('Robson', "Gerente de vendas")
+    # insert_usuario('Robson', "Gerente de vendas")
+    select_usuarios('Eryck')
