@@ -56,7 +56,7 @@ def select_usuarios(name_usuario=''):
     finally:
         session.close()
 
-# Mudar o nome do usuário
+# Mudando o nome do usuário
 def update_usuario(id_usuario, name_usuario):
     session = Session()
 
@@ -74,9 +74,28 @@ def update_usuario(id_usuario, name_usuario):
     finally:
         session.close()
 
+def delete_usuario(id_usuario):
+    try:
+        session = Session()
+        
+        if id_usuario:
+            usuario = session.query(Usuario).filter(Usuario.id == id_usuario).first()
+            session.delete(usuario)
+            session.commit()
+            print("Usuário deletado!")
+        else:
+            print('O campo "ID" não pode ficar em branco.')
+
+    except Exception as e:
+        session.rollback()
+        print('Ocorreu um erro ao deletar o usuário.')
+    finally:
+        session.close()
+
 if __name__ == '__main__':
     os.system('cls') # limpa o terminal
     Base.metadata.create_all(engine)
     # insert_usuario('Robson', "Gerente de vendas")
     # select_usuarios('Eryck')
-    update_usuario(2, 'Eduardo')
+    # update_usuario(2, 'Eduardo')
+    delete_usuario(2)
