@@ -32,7 +32,7 @@ def insert_usuario(name_usuario, type_usuario):
             session.commit()
             print(f'Usuário {name_usuario} cadastrado com sucesso!')
         else:
-            print('Os espaço "name" e "type" não podem ficar em branco.')
+            print('Os espaços "name" e "type" não podem ficar em branco.')
     except Exception as e:
         session.rollback()
         print(f'Ocorreu um erro ao tentar cadastrar o usuário {name_usuario}: {e}')
@@ -44,7 +44,7 @@ def select_usuarios(name_usuario=''):
     session = Session()
     try:
         if name_usuario:
-            data = session.query(Usuario).filter(Usuario.name== name_usuario) # consulta um usuário
+            data = session.query(Usuario).filter(Usuario.name == name_usuario) # consulta um usuário
         else: 
             data = session.query(Usuario).all() # retorna todos os usuários
         
@@ -52,13 +52,31 @@ def select_usuarios(name_usuario=''):
             print(f'Usuário: {i.name} - Tipo: {i.type}')
         
     except Exception as e:
-        print('Ocorreu algum erro ao consutar os usuários.')
+        print('Ocorreu algum erro ao consutar o(s) usuário(s).')
     finally:
         session.close()
 
+# Mudar o nome do usuário
+def update_usuario(id_usuario, name_usuario):
+    session = Session()
+
+    try:
+        if all([id_usuario, name_usuario]):
+            usuario = session.query(Usuario).filter(Usuario.id == id_usuario).first()
+            usuario.name = name_usuario
+            session.commit()
+            print('Nome do usuário alterado com sucesso!')
+        else:
+            print('Os blocos "id" e "name" não podem ficar em branco.')
+    except Exception as e:
+        session.rollback()
+        print('Ocorreu um erro ao atualizar o usuário')
+    finally:
+        session.close()
 
 if __name__ == '__main__':
     os.system('cls') # limpa o terminal
     Base.metadata.create_all(engine)
     # insert_usuario('Robson', "Gerente de vendas")
-    select_usuarios('Eryck')
+    # select_usuarios('Eryck')
+    update_usuario(2, 'Eduardo')
