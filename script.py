@@ -43,4 +43,4 @@ def insert_usuario(name_usuario, type_usuario):
 if __name__ == '__main__':
     os.system('cls') # limpa o terminal
     Base.metadata.create_all(engine)
-    insert_usuario('Eryck', "Programador")
+    insert_usuario('Robson', "Gerente de vendas")
